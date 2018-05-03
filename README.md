@@ -1,4 +1,4 @@
-<p align="center"> # :dollar: Crypto-bot </p>
+<p align="center"> :dollar: Crypto-bot </p>
 
 A crypto bot to execute sell and buy operations in the below exchanges
 - Binance
