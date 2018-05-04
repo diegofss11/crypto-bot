@@ -1,5 +1,38 @@
-.app-header {
-  height: 50px;
+.text-info {
+  display: block;
+  color: #757575;
+  margin-top: 10px;
+  font-size: 12px;
+  width: 100%;
+}
+
+.loading {
+  opacity: .4;
+}
+
+.relative {
+  position: relative;
+}
+
+.amount-info {
+  font-weight: bold;
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.stop-losses {
+  display: flex;
+  flex-direction: row;
+  width: 100%
 }
 
 .inline {
@@ -8,9 +41,6 @@
 }
 
 .action-buttons {
-  margin-top: 40px;
-}
-
-.app-title {
-  font-size: 15px;
+  margin: 50px 0;
+  width: 100%;
 }

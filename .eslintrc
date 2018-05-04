@@ -14,11 +14,11 @@
       "browser": true,
       "node":    true,
       "mocha":   true
-  },   
+  },
   "extends": [
-      "eslint:recommended", 
+      "eslint:recommended",
       "plugin:react/recommended"
-  ],    
+  ],
   "rules": {
   }
 }

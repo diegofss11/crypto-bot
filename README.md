@@ -1,15 +1,17 @@
 <p align="center"> :dollar: Crypto-bot </p>
 
+Application link: https://cryptobotservice.herokuapp.com/
+
 A crypto bot to execute sell and buy operations in the below exchanges
 - Binance
 
-- API Key - Information necessary to access your account
-- Coins - All the coins avaiable in a specific exchange
+- API Key - Information necessary to access your account. It will be saved on your localstorage if the order is submited correctly.
+- Exchange - All the avaiable exchanges
+- Coins - All the avaiable coins in a specific exchange
 
-- Amount - Quantity of coins
-  - 25%, 50%, 75%, 100% - Amount based on your avaiable bitcoin balance
+- BTC Amount - Amount of the coin to be purchased in BTC amount
+  - 25%, 50%, 75%, 100% - Based on your BTC balance
 
-Do you want to set a limit order to sell?
-- Sell limit order - The price you want to sell a coin (amount or %). If set, a sell order will be placed.
+- Stop Loss (%) - The specified price to sell in order to limit a loss.
+- Sell Target (%) - The specified price to sell in order to profit.
 
-- Buy Now - Buy with the current price (displays current price)
