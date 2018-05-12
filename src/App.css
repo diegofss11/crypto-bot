@@ -35,6 +35,10 @@
   width: 100%
 }
 
+.stop-losses > .prefixedTextField:first-child {
+  margin-right: 50px;
+}
+
 .inline {
   display: flex;
   width: 100%;
