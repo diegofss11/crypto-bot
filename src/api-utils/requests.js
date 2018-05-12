@@ -8,7 +8,7 @@ export const getCoins = (exchange) => get(`${baseUrl}/coin?exchange=${exchange}`
 
 export const getCoinPrice = (exchange, coin) => get(`${baseUrl}/price?exchange=${exchange}&coinName=${coin}`)
 
-export const getBitcoinBalance = () => 3;
+export const getBitcoinBalance = () => Promise.resolve(3);
 
 export const submitOrder = data => post(`${baseUrl}/order`, data);
 

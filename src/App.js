@@ -28,13 +28,13 @@ import {
 
 //API MOCKS
 const exchanges = getExchanges();
-const bitcoinAmount = getBitcoinBalance();
 // ----
 
 class App extends Component {
   state = {
-    apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    secretKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    apiKey: '',
+    secretKey: '',
+    bitcoinBalance: '',
 
     coin: '',
     btcAmount: '',
@@ -66,9 +66,15 @@ class App extends Component {
   }
 
   setPercentageAmount = percentage => {
-    const btcAmount = (bitcoinAmount /100) * percentage;
+    const { bitcoinBalance } = this.state;
+    const btcAmount = (bitcoinBalance /100) * percentage;
 
     this.setState({ btcAmount });
+  }
+
+  getBalance = () => {
+    getBitcoinBalance()
+      .then(response => this.setState({ bitcoinBalance: response }))
   }
 
   handleCoinChange = (e) => {
@@ -128,6 +134,7 @@ class App extends Component {
     const {
       apiKey,
       secretKey,
+      bitcoinBalance,
       coin,
       btcAmount,
       exchange,
@@ -209,12 +216,13 @@ class App extends Component {
 
             <div className="inline">
               <span className="text-info">
-                BTC Balance: <span className="amount-info">{bitcoinAmount}</span>
+                BTC Balance: <span className="amount-info">{bitcoinBalance}</span>
               </span>
 
               <FlatButton
                 icon={<Notification />}
                 style={refreshStyle}
+                onClick={this.getBalance}
               />
             </div>
           </section>

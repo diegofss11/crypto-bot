@@ -14,13 +14,12 @@ const styles = {
   }
 };
 
-const PrefixedTextField = ({ hintText, floatingLabelText, prefix, value, style, type, onChange }) => {
+const PrefixedTextField = ({ floatingLabelText, prefix, value, style, type, onChange }) => {
   return (
     <div className="prefixedTextField" style={styles.prefixedTextField}>
       { prefix && <span className="prefix" style={styles.prefix}>{prefix}</span> }
 
       <TextField
-        hintText={hintText}
         floatingLabelText={floatingLabelText}
         floatingLabelStyle={{marginLeft: 10}}
         hintStyle={{marginLeft: 10}}
@@ -35,7 +34,6 @@ const PrefixedTextField = ({ hintText, floatingLabelText, prefix, value, style, 
 };
 
 PrefixedTextField.propTypes = {
-  hintText: PropTypes.string,
   floatingLabelText: PropTypes.string,
   prefix: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -47,7 +45,6 @@ PrefixedTextField.propTypes = {
 PrefixedTextField.defaultProps = {
   value: '',
   style: '',
-  hintText: '',
   floatingLabelText: '',
 }
 
