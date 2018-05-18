@@ -9,6 +9,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Notification from 'material-ui/svg-icons/notification/sync';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
+import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 
@@ -25,6 +26,7 @@ import {
   getBitcoinBalance,
   submitOrder
 } from './api-utils/requests';
+import { getValueFromPorcentage, getBTCAmountByCoinPrice } from './utils/math-utils';
 
 //API MOCKS
 const exchanges = getExchanges();
@@ -34,7 +36,7 @@ class App extends Component {
   state = {
     apiKey: '',
     secretKey: '',
-    bitcoinBalance: '',
+    btcBalance: '',
 
     coin: '',
     btcAmount: '',
@@ -46,6 +48,7 @@ class App extends Component {
     coinPrice: '',
     isLoading: false,
     isSubmitted: false,
+    isModalOpen: false,
     coins: []
   }
 
@@ -66,15 +69,15 @@ class App extends Component {
   }
 
   setPercentageAmount = percentage => {
-    const { bitcoinBalance } = this.state;
-    const btcAmount = (bitcoinBalance /100) * percentage;
+    const { btcBalance } = this.state;
+    const btcAmount = (btcBalance /100) * percentage;
 
     this.setState({ btcAmount });
   }
 
   getBalance = () => {
     getBitcoinBalance()
-      .then(response => this.setState({ bitcoinBalance: response }))
+      .then(response => this.setState({ btcBalance: response }))
   }
 
   handleCoinChange = (e) => {
@@ -116,25 +119,46 @@ class App extends Component {
   onSubmit = () => {
     const { apiKey, secretKey } = this.state;
 
-    this.setState({ isLoading: true})
+    this.setState({ isLoading: true });
 
     submitOrder();
 
     localStorage.setItem('apiKey', JSON.stringify(apiKey));
     localStorage.setItem('secretKey', JSON.stringify(secretKey));
     
-    this.setState({ isSubmitted: true, isLoading: false });
+    this.setState({
+      isModalOpen: false,
+      isLoading: false,
+    });
+  }
+
+  onOpenModal = () => {
+    this.setState({ isModalOpen: true });
+  }
+
+  onCloseModal = () => {
+    this.setState({ isModalOpen: false });
   }
 
   handleRequestClose = () => {
     this.setState({ isSubmitted: false });
   };
 
+  isFormValid = () => {
+    const { btcAmount, exchange, coin } = this.state;
+
+    if(!!(btcAmount && exchange && coin)) {
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     const {
       apiKey,
       secretKey,
-      bitcoinBalance,
+      btcBalance,
       coin,
       btcAmount,
       exchange,
@@ -144,7 +168,22 @@ class App extends Component {
       coins,
       sellOrderType,
       isLoading,
+      isModalOpen,
     } = this.state;
+
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        onClick={this.onCloseModal}
+      />,
+
+      <FlatButton
+        label="Submit"
+        primary={true}
+        onClick={this.onSubmit}
+      />,
+    ];
+
 
     return (
       <MuiThemeProvider>
@@ -216,7 +255,7 @@ class App extends Component {
 
             <div className="inline">
               <span className="text-info">
-                BTC Balance: <span className="amount-info">{bitcoinBalance}</span>
+                BTC Balance: <span className="amount-info">{btcBalance}</span>
               </span>
 
               <FlatButton
@@ -268,10 +307,12 @@ class App extends Component {
               onChange={(e) => this.handleFieldChange('sellOrderType', e)}
             >
               <RadioButton
+                disabled={!stopLoss}
                 value="MARKET"
                 label="Market"
               />
               <RadioButton
+                disabled={!stopLoss}
                 value="LIMIT"
                 label="Limit"
               />
@@ -303,10 +344,28 @@ class App extends Component {
           >
             <RaisedButton
               label={`Buy ${coin ? coin : ''}`}
-              onClick={ () => this.onSubmit()}
+              onClick={ () => this.onOpenModal()}
+              disabled={!this.isFormValid()}
               fullWidth={true}
             />
           </div>
+
+          <Dialog
+            title="Confirmation"
+            actions={actions}
+            modal={true}
+            open={isModalOpen}
+          >
+            { stopLoss ?
+              (
+                `If the last price drops to or below to ${getValueFromPorcentage(coinPrice, stopLoss)},
+                an order to sell ${getBTCAmountByCoinPrice(btcAmount,coinPrice)} ${coin} at a price of ${getValueFromPorcentage(coinPrice, sellTarget)} BTC will be placed.`
+              ) : (
+                `You will buy ${getBTCAmountByCoinPrice(btcAmount, coinPrice)} ${coin} at a price of ${coinPrice}
+                and place a limit order to sell at ${sellTarget}%(${getValueFromPorcentage(coinPrice, sellTarget)})`
+              )
+            }
+          </Dialog>
 
           <Snackbar
             open={this.state.isSubmitted}
