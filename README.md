@@ -1,4 +1,4 @@
-<p align="center"> :dollar: Crypto-bot </p>
+<h1 align="center"> :dollar: Crypto-bot </h1>
 
 ## Application
 Application link: https://cryptobotservice.herokuapp.com/
@@ -9,10 +9,10 @@ A crypto bot to execute sell and buy operations in the below exchanges
 - Binance
 
 ## Fields information
-- API Key - Information necessary to access your account. It will be saved on your localstorage if the order is submited correctly.
 - Exchange - All the avaiable exchanges
 - Coins - All the avaiable coins in a specific exchange
-
+- API Key/Secret Key - Information necessary to access your account. It will be saved on your localstorage if the order is submited correctly.
+- BTC Balance - Your bitcoint balance from the selected exchange
 - BTC Amount - Amount of the coin to be purchased in BTC amount
   - 25%, 50%, 75%, 100% - Based on your BTC balance
 
